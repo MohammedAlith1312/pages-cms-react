@@ -1,0 +1,59 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Environment variables - NEVER commit these
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+.env.test
+*.env
+
+# Build outputs
+dist/
+.next/
+out/
+build/
+
+# TypeScript build cache
+*.tsbuildinfo
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor / IDE
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Package manager locks (keep only one - uncomment what you use)
+# yarn.lock
+# pnpm-lock.yaml
+
+# Drizzle migrations (optional - comment out if you want to track them)
+# drizzle/
+
+# Cache
+.cache/
+.turbo/
+.vercel/
+
+# Test coverage
+coverage/
