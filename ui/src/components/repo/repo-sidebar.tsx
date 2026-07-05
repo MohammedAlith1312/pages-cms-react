@@ -7,8 +7,8 @@ import {
   useRef,
   useState,
 } from "react";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { Link } from "react-router-dom";
+import { usePathname, useRouter } from "react-router-dom";
 import { useConfig } from "@/contexts/config-context";
 import { useRepo } from "@/contexts/repo-context";
 import { useUser } from "@/contexts/user-context";
@@ -88,7 +88,7 @@ type NavigationNode = {
 };
 
 function RepoSwitcher() {
-  const router = useRouter();
+  const router = useNavigate();
   const { owner, repo, branches = [] } = useRepo();
   const { config } = useConfig();
   const currentBranch = config?.branch ?? "";
@@ -145,7 +145,7 @@ function RepoSwitcher() {
   }, [loadRecentRepos]);
 
   const handleBranchChange = (branch: string) => {
-    router.push(`/${owner}/${repo}/${encodeURIComponent(branch)}`);
+    router(`/${owner}/${repo}/${encodeURIComponent(branch)}`);
   };
 
   return (
@@ -227,8 +227,7 @@ function RepoSwitcher() {
                     asChild
                     key={`${visit.owner}/${visit.repo}/${visit.branch}`}
                   >
-                    <Link
-                      href={`/${visit.owner}/${visit.repo}/${encodeURIComponent(visit.branch)}`}
+                    <Link to={`/${visit.owner}/${visit.repo}/${encodeURIComponent(visit.branch)}`}
                     >
                       <img
                         src={`https://github.com/${visit.owner}.png`}
@@ -243,7 +242,7 @@ function RepoSwitcher() {
             )}
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link href="/">All projects</Link>
+              <Link to="/">All projects</Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -259,7 +258,7 @@ function RepoSwitcher() {
 }
 
 export function RepoSidebar() {
-  const pathname = usePathname();
+  const pathname = useLocation().pathname;
   const { user } = useUser();
   const { config } = useConfig();
   const { isMobile, setOpenMobile } = useSidebar();
@@ -504,7 +503,7 @@ export function RepoSidebar() {
       return (
         <SidebarMenuSubItem key={key}>
           <SidebarMenuSubButton asChild isActive={isActive}>
-            <Link href={href} onClick={handleNavigation}>
+            <Link to={href} onClick={handleNavigation}>
               {getNodeIcon(node)}
               <span>{node.label || node.name}</span>
             </Link>
@@ -516,7 +515,7 @@ export function RepoSidebar() {
     return (
       <SidebarMenuItem key={key}>
         <SidebarMenuButton asChild isActive={isActive}>
-          <Link href={href} onClick={handleNavigation}>
+          <Link to={href} onClick={handleNavigation}>
             {getNodeIcon(node)}
             <span>{node.label || node.name}</span>
           </Link>
@@ -554,7 +553,7 @@ export function RepoSidebar() {
               return (
                 <SidebarMenuItem key={item.key}>
                   <SidebarMenuButton asChild isActive={isActive}>
-                    <Link href={item.href} onClick={handleNavigation}>
+                    <Link to={item.href} onClick={handleNavigation}>
                       {item.icon}
                       <span>{item.label}</span>
                     </Link>

@@ -1,6 +1,6 @@
 
 import { useMemo } from "react";
-import { useRouter } from "next/navigation";
+import { useNavigate } from "react-router-dom";
 import { useConfig } from "@/contexts/config-context";
 import { useRepo } from "@/contexts/repo-context";
 import { RepoBranches } from "./repo-branches";
@@ -29,7 +29,7 @@ export function RepoDropdown({
 }: {
   onClick?: () => void;
 }) {
-  const router = useRouter();
+  const router = useNavigate();
   const { owner, repo, branches, defaultBranch } = useRepo();
   const{ config } = useConfig();
 
@@ -55,7 +55,7 @@ export function RepoDropdown({
   }, [branches]);
 
   const handleBranchChange = (branch: string) => {
-    router.push(`/${owner}/${repo}/${encodeURIComponent(branch)}`);
+    router(`/${owner}/${repo}/${encodeURIComponent(branch)}`);
   };
 
   return (

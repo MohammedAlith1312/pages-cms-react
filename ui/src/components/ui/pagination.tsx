@@ -1,6 +1,6 @@
 
 import * as React from "react";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
 
 import { cn } from "@/lib/utils";

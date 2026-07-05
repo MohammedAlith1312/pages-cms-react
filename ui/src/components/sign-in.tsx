@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams } from "react-router-dom";
 import { emailOtp, signIn } from "@/lib/auth-client";
 import { getAuthCallbackURL, getSafeRedirect } from "@/lib/auth-redirect";
 import { Input } from "@/components/ui/input";
@@ -18,7 +18,7 @@ export function SignIn() {
   >(null);
   const isSubmitting = submittingMethod !== null;
 
-  const searchParams = useSearchParams();
+  const [searchParams] = useSearchParams();
   const error = searchParams.get("error") || "";
   const redirectParam = searchParams.get("redirect") || "";
   const safeRedirect = getSafeRedirect(redirectParam);

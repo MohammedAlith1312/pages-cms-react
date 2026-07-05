@@ -8,8 +8,8 @@ import {
   useMemo,
   useState,
 } from "react";
-import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Link } from "react-router-dom";
+import { usePathname, useRouter, useSearchParams } from "react-router-dom";
 import { useConfig } from "@/contexts/config-context";
 import { RepoActionButtons } from "@/components/repo/repo-action-buttons";
 import {
@@ -175,9 +175,9 @@ export function Collection({ name, path }: { name: string; path?: string }) {
   const [error, setError] = useState<string | null>(null);
   const { cache, mutate } = useSWRConfig();
 
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const router = useRouter();
+  const [searchParams] = useSearchParams();
+  const pathname = useLocation().pathname;
+  const router = useNavigate();
 
   const { config } = useConfig();
   if (!config) throw new Error(`Configuration not found.`);
@@ -472,7 +472,7 @@ export function Collection({ name, path }: { name: string; path?: string }) {
         toast.promise(renamePromise, {
           loading: `Renaming "${path}" to "${newPath}"`,
           success: (data: any) => {
-            router.push(
+            router(
               `/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collection/${encodeURIComponent(name)}/new?parent=${encodeURIComponent(getParentPath(normalizedNewPath))}`,
             );
             return data.message;
@@ -701,7 +701,7 @@ export function Collection({ name, path }: { name: string; path?: string }) {
     (newPath: string) => {
       const params = new URLSearchParams(Array.from(searchParams.entries()));
       params.set("path", newPath || schema.path);
-      router.push(`${pathname}?${params.toString()}`);
+      router(`${pathname}?${params.toString()}`);
     },
     [pathname, router, schema.path, searchParams],
   );

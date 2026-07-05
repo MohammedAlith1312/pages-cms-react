@@ -92,8 +92,7 @@ export const LoginEmailTemplate = ({
               style={{ color: emailTheme.mutedForeground }}
             >
               This email was intended for{" "}
-              <Link
-                href={`mailto:${email}`}
+              <Link href={`mailto:${email}`}
                 className="underline"
                 style={{ color: emailTheme.mutedLink }}
               >

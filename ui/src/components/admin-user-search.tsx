@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "react-router-dom";
 import { Search } from "lucide-react";
 import { useDebounce } from "use-debounce";
 import {
@@ -15,9 +15,9 @@ export function AdminUserSearch({
 }: {
   initialQuery: string;
 }) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const router = useNavigate();
+  const pathname = useLocation().pathname;
+  const [searchParams] = useSearchParams();
   const [value, setValue] = useState(initialQuery);
   const [debouncedValue] = useDebounce(value, 250);
 
@@ -41,7 +41,7 @@ export function AdminUserSearch({
     }
 
     const query = params.toString();
-    router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+    router(query ? `${pathname}?${query}` : pathname, { scroll: false });
   }, [debouncedValue, pathname, router, searchParams]);
 
   return (

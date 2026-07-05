@@ -1,5 +1,5 @@
 
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { forwardRef, useCallback, useEffect, useMemo, useState } from "react";
 import { formatDistanceToNowStrict } from "date-fns";
 import {
@@ -494,8 +494,7 @@ export function ActionsPage({
                 size="icon"
                 className="text-muted-foreground hover:text-foreground"
               >
-                <Link
-                  href="https://pagescms.org/docs/configuration/actions/"
+                <Link to="https://pagescms.org/docs/configuration/actions/"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -708,8 +707,7 @@ export function ActionsPage({
                               {run.triggeredByName}
                             </div>
                             {run.triggeredByGithubUsername ? (
-                              <Link
-                                href={`https://github.com/${run.triggeredByGithubUsername}`}
+                              <Link to={`https://github.com/${run.triggeredByGithubUsername}`}
                                 target="_blank"
                                 rel="noreferrer"
                                 className="text-muted-foreground hover:text-foreground"
@@ -734,8 +732,7 @@ export function ActionsPage({
                 </TableCell>
                 <TableCell>
                   {run.sha ? (
-                    <Link
-                      href={getShaUrl(owner, repo, run.sha)!}
+                    <Link to={getShaUrl(owner, repo, run.sha)!}
                       target="_blank"
                       rel="noreferrer"
                       className="font-mono text-[13px] hover:underline"
@@ -760,8 +757,7 @@ export function ActionsPage({
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem asChild disabled={!run.htmlUrl}>
-                        <Link
-                          href={run.htmlUrl ?? "#"}
+                        <Link to={run.htmlUrl ?? "#"}
                           target="_blank"
                           rel="noreferrer"
                         >

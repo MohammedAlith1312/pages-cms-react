@@ -1,7 +1,7 @@
 
 import { Fragment, memo, type ReactNode, startTransition, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { Link } from "react-router-dom";
+import { usePathname, useRouter } from "react-router-dom";
 import { useConfig } from "@/contexts/config-context";
 import { RepoActionButtons } from "@/components/repo/repo-action-buttons";
 import {
@@ -219,8 +219,8 @@ const MediaView = ({
     return config.object.media.find((item: { name: string }) => item.name === media);
   }, [media, config.object.media]);
 
-  const pathname = usePathname();
-  const router = useRouter();
+  const pathname = useLocation().pathname;
+  const router = useNavigate();
 
   const filteredExtensions = useMemo(() => {
     if (!mediaConfig?.extensions && !extensions) return [];
@@ -418,7 +418,7 @@ const MediaView = ({
     if (!onSelect) {
       const params = new URLSearchParams(window.location.search);
       params.set("path", newPath || mediaConfig.input);
-      router.push(`${pathname}?${params.toString()}`);
+      router(`${pathname}?${params.toString()}`);
     }
   }, [mediaConfig.input, onSelect, pathname, router]);
 

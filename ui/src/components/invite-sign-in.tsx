@@ -1,6 +1,6 @@
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { Loader } from "lucide-react";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
@@ -146,7 +146,7 @@ export function InviteSignIn({ token }: { token: string }) {
           <EmptyDescription>This invitation is no longer available.</EmptyDescription>
         </EmptyHeader>
         <EmptyContent>
-          <Link href="/sign-in" className={buttonVariants()}>
+          <Link to="/sign-in" className={buttonVariants()}>
             Sign in
           </Link>
         </EmptyContent>
@@ -177,7 +177,7 @@ export function InviteSignIn({ token }: { token: string }) {
             Sign out
             {pending === "sign-out" && <Loader className="size-4 animate-spin" />}
           </Button>
-          <Link href="/" className={buttonVariants({ variant: "outline" })}>
+          <Link to="/" className={buttonVariants({ variant: "outline" })}>
             Go home
           </Link>
         </EmptyContent>

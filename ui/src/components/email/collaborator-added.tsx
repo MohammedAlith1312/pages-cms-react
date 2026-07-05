@@ -68,8 +68,7 @@ export const CollaboratorAddedEmailTemplate = ({
               className="text-[16px] leading-[24px]"
               style={{ color: emailTheme.foreground }}
             >
-              <Link
-                href={invitedByUrl}
+              <Link href={invitedByUrl}
                 className="underline rounded-md"
                 style={{ color: emailTheme.link }}
               >
@@ -96,8 +95,7 @@ export const CollaboratorAddedEmailTemplate = ({
               style={{ color: emailTheme.mutedForeground }}
             >
               This email was intended for{" "}
-              <Link
-                href={`mailto:${email}`}
+              <Link href={`mailto:${email}`}
                 className="underline"
                 style={{ color: emailTheme.mutedLink }}
               >

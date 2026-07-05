@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useNavigate } from "react-router-dom";
 import { signIn } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -33,7 +33,7 @@ export function Identities({
   githubUsername,
   githubManageUrl,
 }: IdentitiesProps) {
-  const router = useRouter();
+  const router = useNavigate();
   const [pendingAction, setPendingAction] = useState<
     "connect" | "disconnect" | null
   >(null);
@@ -69,7 +69,7 @@ export function Identities({
       }
 
       toast.success("GitHub account disconnected.");
-      router.refresh();
+      window.location.reload();
     } catch (error) {
       const message =
         error instanceof Error

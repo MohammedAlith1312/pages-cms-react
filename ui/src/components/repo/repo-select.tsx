@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useDebounce } from "use-debounce";
 import { formatDistanceToNow } from "date-fns";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { useUser } from "@/contexts/user-context";
 import { getGithubInstallationUrl } from "@/lib/github-app";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -150,7 +150,7 @@ export function RepoSelect({
                 <>
                   <DropdownMenuSeparator/>
                   <DropdownMenuItem asChild>
-                    <Link href="/api/github-app/install">Manage GitHub accounts</Link>
+                    <Link to="/api/github-app/install">Manage GitHub accounts</Link>
                   </DropdownMenuItem>
                 </>
               }

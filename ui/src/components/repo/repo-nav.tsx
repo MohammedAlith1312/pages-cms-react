@@ -1,7 +1,7 @@
 
 import { useMemo } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useConfig } from "@/contexts/config-context";
 import { useUser } from "@/contexts/user-context";
 import { hasGithubIdentity } from "@/lib/authz-shared";
@@ -42,7 +42,7 @@ const RepoNav = ({
 }) => {
   const { config } = useConfig();
   const { user } = useUser();
-  const pathname = usePathname();
+  const pathname = useLocation().pathname;
 
   const items = useMemo(() => {
     if (!config || !config.object) return [];

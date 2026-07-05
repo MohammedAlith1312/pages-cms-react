@@ -1,7 +1,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useActionState } from "react";
-import { useRouter } from "next/navigation";
+import { useNavigate } from "react-router-dom";
 import { useUser } from "@/contexts/user-context";
 import { handleCopyTemplate } from "@/lib/actions/template";
 import templates from "@/lib/templates";
@@ -30,7 +30,7 @@ import { ChevronsUpDown, ArrowUpRight } from "lucide-react";
 
 export function RepoTemplates({ defaultAccount }: { defaultAccount?: any }) {
   const { user } = useUser();
-  const router = useRouter();
+  const router = useNavigate();
   const dialogCloseRef = useRef<any>(null);
 
   const [copyTemplateState, copyTemplateAction] = useActionState(
@@ -96,7 +96,7 @@ export function RepoTemplates({ defaultAccount }: { defaultAccount?: any }) {
         success: (response: any) => {
           if (!copyTemplateState.data?.owner || !copyTemplateState.data?.repo)
             return;
-          router.push(
+          router(
             `/${copyTemplateState.data.owner}/${copyTemplateState.data.repo}`,
           );
           return `Repository is ready, redirecting you.`;

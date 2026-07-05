@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useNavigate } from "react-router-dom";
 import { Loader as LucideLoader } from "lucide-react";
 import { useConfig } from "@/contexts/config-context";
 import { normalizePath } from "@/lib/utils/file";
@@ -23,7 +23,7 @@ const EmptyCreate = ({
   const { config } = useConfig();
   if (!config) throw new Error(`Configuration not found.`);
 
-  const router = useRouter();
+  const router = useNavigate();
   const [isCreating, setIsCreating] = useState(false);
 
   let path = "";
@@ -89,8 +89,8 @@ const EmptyCreate = ({
       toast.loading(`Opening ${toCreate}...`, { id: toastId });
       onCreate?.(normalizePath(path));
       // Navigate immediately so destination route can render its loading skeleton.
-      router.push(`${redirectTo}?empty-created`);
-      router.refresh();
+      router(`${redirectTo}?empty-created`);
+      window.location.reload();
       toast.success(`Created ${toCreate}. Opening...`, { id: toastId });
     } catch (error) {
       setIsCreating(false);

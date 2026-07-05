@@ -1,6 +1,6 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { formatDistanceToNowStrict } from "date-fns";
 import {
   CircleCheck,
@@ -349,8 +349,7 @@ export function RepoActionButtons({
           {runs.map((run) => (
             isGithubUser && run.htmlUrl ? (
               <DropdownMenuItem key={run.id} asChild>
-                <Link
-                  href={run.htmlUrl}
+                <Link to={run.htmlUrl}
                   target="_blank"
                   rel="noreferrer"
                   className="flex w-full items-center gap-3"
@@ -377,7 +376,7 @@ export function RepoActionButtons({
             <>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
-                <Link href={`/${owner}/${repo}/${encodeURIComponent(refName)}/actions`}>
+                <Link to={`/${owner}/${repo}/${encodeURIComponent(refName)}/actions`}>
                   View all actions
                 </Link>
               </DropdownMenuItem>

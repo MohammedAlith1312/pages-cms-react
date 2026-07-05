@@ -1,5 +1,5 @@
 
-import Link from "next/link";
+import { Link } from "react-router-dom";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useActionState } from "react";
 import {
@@ -306,8 +306,7 @@ export function Collaborators({
                 size="icon"
                 className="text-muted-foreground hover:text-foreground"
               >
-                <Link
-                  href="https://pagescms.org/docs/configuration/collaborators/"
+                <Link to="https://pagescms.org/docs/configuration/collaborators/"
                   target="_blank"
                   rel="noreferrer"
                 >

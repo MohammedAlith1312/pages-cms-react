@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { getInitialsFromName } from "@/lib/utils/avatar";
 import {
@@ -28,7 +28,7 @@ type ProfileProps = {
 };
 
 export function Profile({ name, email, githubUsername }: ProfileProps) {
-  const router = useRouter();
+  const router = useNavigate();
   const [displayName, setDisplayName] = useState(name?.trim() || "");
   const [isSaving, setIsSaving] = useState(false);
 
@@ -53,7 +53,7 @@ export function Profile({ name, email, githubUsername }: ProfileProps) {
       }
 
       toast.success("Profile updated.");
-      router.refresh();
+      window.location.reload();
     } catch (error) {
       const message = error instanceof Error ? error.message : "Failed to update profile.";
       toast.error(message);
