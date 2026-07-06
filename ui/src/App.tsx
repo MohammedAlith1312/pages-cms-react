@@ -139,14 +139,14 @@ function ProjectsPage() {
               onAccountSelect={(account) => setDefaultAccount(account)}
             />
           </div>
-          {isGithubUser && (
+          {/* {isGithubUser && (
             <div className="space-y-4">
               <h2 className="text-lg font-medium tracking-tight">
                 Create from a template
               </h2>
               <RepoTemplates defaultAccount={defaultAccount} />
             </div>
-          )}
+          )} */}
         </div>
       ) : isGithubUser ? (
         <div className="absolute inset-0 flex items-center justify-center p-6 text-center">
