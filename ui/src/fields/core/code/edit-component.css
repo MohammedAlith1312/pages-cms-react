@@ -1,4 +1,4 @@
-@reference "../../../app/globals.css";
+@reference "../../../index.css";
 
 .cm-editor {
   @apply bg-background! border-input rounded-md border pr-[10px] pl-[6px] py-1 text-sm outline-none transition-[color,box-shadow];

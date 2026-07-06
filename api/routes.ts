@@ -35,6 +35,7 @@ import {
   ensureFileCacheFreshness,
   clearFileCache,
   updateFileCache,
+  getRepoSnapshot,
 } from "./lib/github-cache-file.ts";
 import { getCacheFileMeta, listCacheFileMeta, deleteCacheFileMeta, upsertCacheFileMeta } from "./lib/github-cache-meta.ts";
 import { clearPermissionCache } from "./lib/github-cache-permissions.ts";
@@ -43,6 +44,8 @@ import { getToken, getInstallationToken } from "./lib/token.ts";
 import { sendEmail } from "./lib/mailer.ts";
 import { getBaseUrl } from "./lib/base-url.ts";
 import { findVerifiedUserByEmail, normalizeEmail } from "./lib/collaborator-access.ts";
+import { getAccounts } from "./lib/accounts.ts";
+import { hasAdminAccess } from "./lib/admin.ts";
 
 // Webhook event handlers
 import { handleInstallationWebhookEvent } from "./lib/github-webhook-installation.ts";
@@ -130,6 +133,38 @@ router.get("/api/repos/:owner", requireAuth, async (req: any, res: Response) => 
     res.json({
       status: "success",
       data: Array.from(reposByKey.values()),
+    });
+  } catch (error) {
+    sendErrorResponse(res, error);
+  }
+});
+
+router.get("/api/repos/:owner/:repo", requireAuth, async (req: any, res: Response) => {
+  try {
+    const { owner, repo } = req.params;
+    const { token } = await getToken(req.user, owner, repo);
+    if (!token) throw createHttpError("Token not found", 401);
+
+    const repoInfo = await getRepoSnapshot(owner, repo, token);
+    res.json({ status: "success", data: repoInfo });
+  } catch (error) {
+    sendErrorResponse(res, error);
+  }
+});
+
+router.get("/api/users/me", requireAuth, async (req: any, res: Response) => {
+  try {
+    const user = req.user;
+    const accounts = await getAccounts(user);
+    const isAdmin = hasAdminAccess(user);
+
+    res.json({
+      status: "success",
+      data: {
+        ...user,
+        isAdmin,
+        accounts,
+      },
     });
   } catch (error) {
     sendErrorResponse(res, error);

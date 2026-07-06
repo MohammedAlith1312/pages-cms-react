@@ -20,11 +20,11 @@ import {
 } from "@/components/ui/dialog";
 import packageJson from "../../../pagescms/package.json";
 
-const releaseRef = process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_REF;
+const releaseRef = import.meta.env.VITE_VERCEL_GIT_COMMIT_REF;
 const inferredTagVersion =
   releaseRef && /^v\d+\.\d+\.\d+/.test(releaseRef) ? releaseRef : undefined;
 const version =
-  process.env.NEXT_PUBLIC_APP_VERSION ??
+  import.meta.env.VITE_APP_VERSION ??
   inferredTagVersion ??
   packageJson.version;
 const UPDATE_DOCS_URL = "https://pagescms.org/docs";

@@ -9,7 +9,7 @@ import { router as apiRouter } from "./routes.ts";
 const app = express();
 
 // Configure CORS to allow the frontend SPA to communicate with this backend.
-const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+const frontendUrl = process.env.FRONTEND_URL || "http://localhost:3000";
 app.use(
   cors({
     origin: frontendUrl,
