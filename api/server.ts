@@ -2,9 +2,9 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { toNodeHandler } from "better-auth/node";
-import { auth } from "./lib/auth.ts";
+import { auth } from "./lib/auth";
 
-import { router as apiRouter } from "./routes.ts";
+import { router as apiRouter } from "./routes";
 
 const app = express();
 
@@ -48,16 +48,6 @@ app.all("/api/auth/*", toNodeHandler(auth));
 
 // Mount REST API endpoints
 app.use(apiRouter);
-
-// Healthcheck endpoint
-app.get("/api/health", (req, res) => {
-  res.json({ status: "ok", service: "pagescms-api", timestamp: new Date() });
-});
-
-// Root route
-app.get("/", (req, res) => {
-  res.send("Pages CMS API Server is running.");
-});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
