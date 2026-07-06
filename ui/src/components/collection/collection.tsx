@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 import { Link } from "react-router-dom";
-import { usePathname, useRouter, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useConfig } from "@/contexts/config-context";
 import { RepoActionButtons } from "@/components/repo/repo-action-buttons";
 import {
@@ -153,13 +153,13 @@ const CollectionHeaderActions = memo(function CollectionHeaderActions({
         <>
           <Link
             className={cn(buttonVariants(), "hidden sm:flex")}
-            href={addEntryHref}
+            to={addEntryHref}
           >
             Add an entry
           </Link>
           <Link
             className={cn(buttonVariants({ size: "icon" }), "sm:hidden shrink-0")}
-            href={addEntryHref}
+            to={addEntryHref}
           >
             <Plus className="size-4" />
           </Link>
@@ -521,7 +521,7 @@ export function Collection({ name, path }: { name: string; path?: string }) {
                 return (
                   <Link
                     className="font-medium truncate"
-                    href={`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collection/${encodeURIComponent(name)}/edit/${encodeURIComponent(row.original.path)}`}
+                    to={`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collection/${encodeURIComponent(name)}/edit/${encodeURIComponent(row.original.path)}`}
                   >
                     {CellView}
                   </Link>
@@ -547,7 +547,7 @@ export function Collection({ name, path }: { name: string; path?: string }) {
                 className={cn(
                   buttonVariants({ variant: "outline", size: "sm" }),
                 )}
-                href={`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collection/${name}/edit/${encodeURIComponent(row.original.path)}`}
+                to={`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collection/${name}/edit/${encodeURIComponent(row.original.path)}`}
               >
                 Edit
               </Link>
@@ -631,7 +631,7 @@ export function Collection({ name, path }: { name: string; path?: string }) {
                       buttonVariants({ variant: "outline", size: "icon-sm" }),
                       "w-8 h-8",
                     )}
-                    href={
+                    to={
                       row.original.isNode
                         ? `/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collection/${encodeURIComponent(name)}/new?parent=${encodeURIComponent(row.original.parentPath)}`
                         : row.original.type === "dir"
@@ -1006,7 +1006,7 @@ export function Collection({ name, path }: { name: string; path?: string }) {
           ) : (
             <Link
               className={buttonVariants({ variant: "default" })}
-              href={`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/settings`}
+              to={`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/settings`}
             >
               Go to settings
             </Link>

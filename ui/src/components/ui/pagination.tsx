@@ -33,17 +33,22 @@ function PaginationItem(props: React.ComponentProps<"li">) {
 
 type PaginationLinkProps = {
   isActive?: boolean;
+  href?: string;
+  to?: any;
 } & Partial<Pick<VariantProps<typeof buttonVariants>, "size">> &
-  React.ComponentProps<typeof Link>;
+  Omit<React.ComponentProps<typeof Link>, "to">;
 
 function PaginationLink({
   className,
   isActive,
   size = "icon-sm",
+  href,
+  to,
   ...props
 }: PaginationLinkProps) {
   return (
     <Link
+      to={to || href || "#"}
       aria-current={isActive ? "page" : undefined}
       className={cn(
         buttonVariants({

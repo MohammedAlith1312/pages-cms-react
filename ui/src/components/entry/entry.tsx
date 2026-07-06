@@ -802,7 +802,7 @@ export function Entry({
             <EmptyContent>
               <Link
                 className="inline-flex items-center justify-center rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground shadow-xs hover:bg-primary/90"
-                href={`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/configuration`}
+                to={`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/configuration`}
               >
                 Go to configuration
               </Link>
@@ -826,7 +826,7 @@ export function Entry({
           <EmptyContent>
             <Link
               className="inline-flex items-center justify-center rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground shadow-xs hover:bg-primary/90"
-              href={`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collection/${encodeURIComponent(name)}`}
+              to={`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collection/${encodeURIComponent(name)}`}
             >
               Back to collection
             </Link>

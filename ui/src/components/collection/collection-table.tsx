@@ -257,7 +257,7 @@ export function CollectionTable<TData extends TableData>({
                             </button>
                           : <Link
                               className="flex items-center gap-x-2 font-medium"
-                              href={`${pathname}?path=${encodeURIComponent(row.original.path)}`}
+                              to={`${pathname}?path=${encodeURIComponent(row.original.path)}`}
                             >
                               <Folder className="h-4 w-4" />
                               {row.original.name}

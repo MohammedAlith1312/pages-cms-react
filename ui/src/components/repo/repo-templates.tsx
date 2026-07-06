@@ -1,9 +1,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useActionState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "@/contexts/user-context";
-import { handleCopyTemplate } from "@/lib/actions/template";
 import templates from "@/lib/templates";
 import { Button } from "@/components/ui/button";
 import { SubmitButton } from "@/components/submit-button";
@@ -33,24 +31,67 @@ export function RepoTemplates({ defaultAccount }: { defaultAccount?: any }) {
   const router = useNavigate();
   const dialogCloseRef = useRef<any>(null);
 
-  const [copyTemplateState, copyTemplateAction] = useActionState(
-    handleCopyTemplate,
-    {
-      message: "",
-      data: {
-        template: "",
-        owner: "",
-        repo: "",
-        branch: "",
-      },
+  const [isPending, setIsPending] = useState(false);
+  const [copyTemplateState, setCopyTemplateState] = useState<any>({
+    message: "",
+    error: "",
+    data: {
+      template: "",
+      owner: "",
+      repo: "",
+      branch: "",
     },
-  );
+  });
+
   const [selectedAccount, setSelectedAccount] = useState(
     defaultAccount || user?.accounts?.[0],
   );
   const [name, setName] = useState(templates[0].suggested);
   const [isValidName, setIsValidName] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsPending(true);
+    setCopyTemplateState({ message: "", error: "", data: { template: "", owner: "", repo: "", branch: "" } });
+    
+    const formData = new FormData(e.currentTarget);
+    const templateRepo = formData.get("template") as string;
+    const owner = formData.get("owner") as string;
+    const repoName = formData.get("name") as string;
+
+    try {
+      const response = await fetch("/api/templates/copy", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          template: templateRepo,
+          owner,
+          name: repoName,
+        }),
+      });
+      const data = await response.json();
+      if (response.ok && data.status === "success") {
+        setCopyTemplateState({
+          message: data.message,
+          error: "",
+          data: data.data,
+        });
+      } else {
+        setCopyTemplateState((prev: any) => ({
+          ...prev,
+          error: data.message || "Failed to copy template repository.",
+        }));
+      }
+    } catch (err: any) {
+      setCopyTemplateState((prev: any) => ({
+        ...prev,
+        error: err.message || "An unexpected error occurred.",
+      }));
+    } finally {
+      setIsPending(false);
+    }
+  };
 
   const validateName = useCallback((name: string) => {
     if (!name || name.length > 100) return false;
@@ -134,7 +175,7 @@ export function RepoTemplates({ defaultAccount }: { defaultAccount?: any }) {
                 </button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
-                <form action={copyTemplateAction} className="grid gap-4">
+                <form onSubmit={handleFormSubmit} className="grid gap-4">
                   <DialogHeader>
                     <DialogTitle>Copy template</DialogTitle>
                     <DialogDescription>
@@ -242,7 +283,7 @@ export function RepoTemplates({ defaultAccount }: { defaultAccount?: any }) {
                   </div>
                   <DialogFooter>
                     <DialogClose ref={dialogCloseRef}></DialogClose>
-                    <SubmitButton type="submit" disabled={!isValidName}>
+                    <SubmitButton type="submit" disabled={!isValidName} loading={isPending}>
                       Create copy
                     </SubmitButton>
                   </DialogFooter>

@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 import { Link } from "react-router-dom";
-import { usePathname, useRouter } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useConfig } from "@/contexts/config-context";
 import { useRepo } from "@/contexts/repo-context";
 import { useUser } from "@/contexts/user-context";

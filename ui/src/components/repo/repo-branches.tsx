@@ -93,7 +93,7 @@ export function RepoBranches() {
                   : "hover:bg-accent",
                 "inline-flex items-center rounded-lg px-3 py-2 transition-all ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               )}
-              href={`/${owner}/${repo}/${encodeURIComponent(branch)}`}
+              to={`/${owner}/${repo}/${encodeURIComponent(branch)}`}
             >
               <span className="truncate">{branch}</span>
               {branch === config?.branch && <Check className="h-4 w-4 ml-auto opacity-50" />}

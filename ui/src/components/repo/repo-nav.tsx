@@ -27,7 +27,7 @@ const RepoNavItem = ({
       active ? "bg-accent" : "hover:bg-accent",
       "flex items-center rounded-lg px-3 py-2 font-medium focus:bg-accent outline-none"
     )}
-    href={href}
+    to={href}
     onClick={onClick}
   >
     {icon}

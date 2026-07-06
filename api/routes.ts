@@ -137,6 +137,46 @@ router.get("/api/repos/:owner", requireAuth, async (req: any, res: Response) => 
 });
 
 /* ==========================================
+   1.5. TEMPLATE COPY ENDPOINT
+   ========================================== */
+router.post("/api/templates/copy", requireAuth, async (req: any, res: Response) => {
+  try {
+    const { template, owner, name } = req.body;
+    const user = req.user;
+
+    const token = await requireGithubUserToken(user, "You must be signed in with GitHub to copy a template.");
+
+    const installations = await getInstallations(token, [owner]);
+    if (installations.length !== 1) {
+      return res.status(400).json({ status: "error", message: `"${owner}" is not part of your GitHub App installations` });
+    }
+
+    const [template_owner, template_repo] = template.split("/");
+    const octokit = createOctokitInstance(token);
+    const response = await octokit.rest.repos.createUsingTemplate({
+      template_owner,
+      template_repo,
+      owner,
+      name,
+    });
+
+    res.json({
+      status: "success",
+      message: `"${template}" successfully copied as "${response.data.full_name}".`,
+      data: {
+        template,
+        owner,
+        repo: name,
+        branch: response.data.default_branch
+      }
+    });
+  } catch (error: any) {
+    console.error(error);
+    res.status(500).json({ status: "error", message: error.response?.data?.message || error.message });
+  }
+});
+
+/* ==========================================
    2. CONFIG ENDPOINT
    ========================================== */
 router.get("/api/:owner/:repo/:branch/config", requireAuth, async (req: any, res: Response) => {

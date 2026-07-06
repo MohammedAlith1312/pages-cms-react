@@ -1,7 +1,7 @@
 
 import { Fragment, memo, type ReactNode, startTransition, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { usePathname, useRouter } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useConfig } from "@/contexts/config-context";
 import { RepoActionButtons } from "@/components/repo/repo-action-buttons";
 import {
@@ -623,7 +623,7 @@ const MediaView = ({
         <EmptyContent>
           <Link
             className={buttonVariants({ variant: "default" })}
-            href={`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/configuration`}
+            to={`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/configuration`}
           >
             Open configuration
           </Link>
