@@ -9,7 +9,7 @@ import { json } from "@codemirror/lang-json";
 import { html } from "@codemirror/lang-html";
 import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
 import { yaml } from "@codemirror/legacy-modes/mode/yaml";
-import { useTheme } from "next-themes";
+import { useTheme } from "@/components/theme-provider";
 import { linter } from "@codemirror/lint";
 import "./edit-component.css";
 

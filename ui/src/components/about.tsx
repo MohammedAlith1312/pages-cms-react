@@ -18,7 +18,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import packageJson from "../../../pagescms/package.json";
+import packageJson from "../../package.json";
 
 const releaseRef = import.meta.env.VITE_VERCEL_GIT_COMMIT_REF;
 const inferredTagVersion =
@@ -26,7 +26,8 @@ const inferredTagVersion =
 const version =
   import.meta.env.VITE_APP_VERSION ??
   inferredTagVersion ??
-  packageJson.version;
+  packageJson.version ??
+  "";
 const UPDATE_DOCS_URL = "https://pagescms.org/docs";
 
 export function About() {

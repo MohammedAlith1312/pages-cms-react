@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { useTheme } from "next-themes";
+import { useTheme, type Theme } from "@/components/theme-provider";
 import { useUser } from "@/contexts/user-context";
 import { signOut } from "@/lib/auth-client";
 import { getInitialsFromName } from "@/lib/utils/avatar";
@@ -69,7 +69,7 @@ export function User({
         <DropdownMenuLabel className="w-40 text-xs text-muted-foreground font-medium">
           Theme
         </DropdownMenuLabel>
-        <DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
+        <DropdownMenuRadioGroup value={theme} onValueChange={(val) => setTheme(val as Theme)}>
           <DropdownMenuRadioItem value="light" onClick={onClick}>
             Light
           </DropdownMenuRadioItem>
