@@ -9,3 +9,13 @@ content:
         type: string
       - name: body
         type: rich-text
+
+        name: pages
+    label: Pages
+    type: collection
+    path: docs
+    fields:
+      - name: title
+        type: string
+      - name: body
+        type: rich-text
