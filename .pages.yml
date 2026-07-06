@@ -10,7 +10,7 @@ content:
       - name: body
         type: rich-text
 
-        name: pages
+  - name: pages
     label: Pages
     type: collection
     path: docs
