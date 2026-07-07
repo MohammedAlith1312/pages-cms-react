@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate, useParams, useSearchParams, Out
 import { useEffect, useState } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
-import { useSession } from "@/lib/auth-client";
+import { useSession, signOut } from "@/lib/auth-client";
 import { Providers } from "@/components/providers";
 import { useUser } from "@/contexts/user-context";
 import { useConfig } from "@/contexts/config-context";
@@ -49,11 +49,29 @@ function SessionLoader() {
         if (res.ok) {
           const payload = await res.json();
           if (active) {
-            setUser(payload.data || null);
+            if (payload.data) {
+              setUser(payload.data);
+            } else {
+              await signOut();
+              window.location.assign("/sign-in");
+            }
+          }
+        } else {
+          if (active) {
+            await signOut();
+            window.location.assign("/sign-in");
           }
         }
       } catch (err) {
         console.error("Failed to load detailed user profile:", err);
+        if (active) {
+          try {
+            await signOut();
+          } catch (signOutErr) {
+            console.error("Failed to sign out:", signOutErr);
+          }
+          window.location.assign("/sign-in");
+        }
       } finally {
         if (active) {
           setLoading(false);
@@ -66,7 +84,7 @@ function SessionLoader() {
     };
   }, []);
 
-  if (loading) {
+  if (loading || !user) {
     return (
       <div className="flex h-screen items-center justify-center">
         <Loader />
@@ -100,7 +118,7 @@ function AppWrapper() {
   }
 
   if (session?.user && isAuthRoute) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/repos" replace />;
   }
 
   return <SessionLoader />;
@@ -361,7 +379,7 @@ function SettingsPage() {
   return (
     <div className="max-w-screen-sm mx-auto p-4 md:p-6 space-y-6">
       <Button asChild variant="outline" size="xs" className="inline-flex">
-        <a href="/">
+        <a href="/repos">
           <ArrowLeft className="mr-2 size-4" />
           Go home
         </a>
@@ -524,6 +542,13 @@ function CollaboratorSignInWrapper() {
   return <InviteSignIn token={token} />;
 }
 
+// ── AUTHENTICATED REDIRECT HANDLER ───────────────────────────────────────────
+function AuthRedirectHandler() {
+  const [searchParams] = useSearchParams();
+  const to = searchParams.get("to") || "/repos";
+  return <Navigate to={to} replace />;
+}
+
 // ── MAIN ROUTING MATRIX ──────────────────────────────────────────────────────
 function App() {
   return (
@@ -533,8 +558,10 @@ function App() {
           {/* Main session wrapper */}
           <Route element={<AppWrapper />}>
             {/* Authenticated routes without repo layout */}
-            <Route path="/" element={<ProjectsPage />} />
+            <Route path="/" element={<Navigate to="/repos" replace />} />
+            <Route path="/repos" element={<ProjectsPage />} />
             <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/auth/redirect" element={<AuthRedirectHandler />} />
 
             {/* Repository Workspace routes (requires layout) */}
             <Route path="/:owner/:repo" element={<RepoWrapper />}>
@@ -558,7 +585,7 @@ function App() {
           <Route path="/sign-in/collaborator" element={<CollaboratorSignInWrapper />} />
 
           {/* Fallback */}
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<Navigate to="/repos" replace />} />
         </Routes>
       </BrowserRouter>
       <Toaster />

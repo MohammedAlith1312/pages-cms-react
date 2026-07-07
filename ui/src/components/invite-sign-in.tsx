@@ -177,7 +177,7 @@ export function InviteSignIn({ token }: { token: string }) {
             Sign out
             {pending === "sign-out" && <Loader className="size-4 animate-spin" />}
           </Button>
-          <Link to="/" className={buttonVariants({ variant: "outline" })}>
+          <Link to="/repos" className={buttonVariants({ variant: "outline" })}>
             Go home
           </Link>
         </EmptyContent>
